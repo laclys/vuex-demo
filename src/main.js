@@ -27,8 +27,31 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    // 变更状态
     increment: state => state.count++,
-    decrement: state => state.count--
+    decrement: state => state.count--,
+    testPayload(state, n) {
+      state.count += n
+    }
+  },
+  actions: {
+    incrementAsync(context) {
+      setTimeout(() => {
+        context.commit('increment');
+      }, 1000);
+    },
+    // store.dispatch 可以处理被触发的action的回调函数返回的Promise，并且store.dispatch仍旧返回Promise
+    decrementAsync({
+      commit
+    }) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          commit('decrement');
+          resolve();
+        },1000)
+      })
+    },
+
   }
 });
 new Vue({

@@ -7,6 +7,11 @@
         </div>
         <p>getter：</p>
         <div>{{todo}}</div>个数：<i>{{todoCount}}</i>
+        <p>PAYLOAD：</p>
+        <button @click="testPayload">加上10</button>
+        <p>异步（分发Action）:一秒后执行+</p>
+        <button @click="incrementAsync">+</button>
+        <button @click="decrementAsync">-</button>
     </div>
 </template>
 
@@ -45,6 +50,18 @@ export default {
         },
         decrement() {
             this.$store.commit('decrement');
+        },
+        testPayload() {
+            this.$store.commit('testPayload', 10);
+        },
+        incrementAsync() {
+            this.$store.dispatch('incrementAsync');
+        },
+        decrementAsync() {
+            this.$store.dispatch('decrementAsync').then(() => {
+                // 执行完decrementAsync,之后执行：
+                console.log('decrementAsync执行完了');
+            });
         }
     }
 }
@@ -52,8 +69,9 @@ export default {
 
 <style>
 button {
-    width: 20px;
     height: 20px;
+    width: 70px;
+    line-height: 20px;
     text-align: center;
 }
 </style>
